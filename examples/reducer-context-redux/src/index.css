@@ -1,0 +1,44 @@
+.container {
+  margin: 0 auto;
+  max-width: 720px;
+}
+
+.add {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.columns {
+  display: flex;
+}
+
+ul.column {
+  margin: 0;
+  padding: 8px 16px;
+  flex: 1;
+  border: 1px solid #cacaca;
+}
+
+ul.column h2 {
+  text-align: center;
+}
+
+li.item {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 8px;
+  padding: 8px 16px;
+  list-style: none;
+  border: 1px solid rgb(209 213 219);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+li.item .operate span {
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+li.item .operate span:last-child {
+  margin-right: 0;
+}
