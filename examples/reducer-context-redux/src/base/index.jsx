@@ -21,22 +21,18 @@ export default function BaseApp() {
 
   const handlePrevStep = (todo) => {
     setTodos(
-      todos.map((item) =>
-        item.name === todo.name ? { ...item, step: item.step - 1 } : item
-      )
+      todos.map((t) => (t.name === todo.name ? { ...t, step: t.step - 1 } : t))
     );
   };
 
   const handleNextStep = (todo) => {
     setTodos(
-      todos.map((item) =>
-        item.name === todo.name ? { ...item, step: item.step + 1 } : item
-      )
+      todos.map((t) => (t.name === todo.name ? { ...t, step: t.step + 1 } : t))
     );
   };
 
-  const handleDelTodo = (todo) => {
-    setTodos(todos.filter((item) => item.name !== todo.name));
+  const handleDelTodo = (name) => {
+    setTodos(todos.filter((t) => t.name !== name));
   };
 
   const columns = useMemo(() => {
