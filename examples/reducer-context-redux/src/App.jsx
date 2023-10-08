@@ -1,6 +1,7 @@
 import BaseApp from './base';
 import ReducerApp from './reducer';
 import ContextApp from './context';
+import ReduxApp from './redux';
 
 function App() {
   console.log('Render App...');
@@ -9,7 +10,8 @@ function App() {
     <>
       {/* <BaseApp /> */}
       {/* <ReducerApp /> */}
-      <ContextApp />
+      {/* <ContextApp /> */}
+      <ReduxApp />
     </>
   );
 }
