@@ -15,7 +15,7 @@
 
 ul.column {
   margin: 0;
-  padding: 8px 16px;
+  padding: 24px;
   flex: 1;
   border: 1px solid #cacaca;
 }

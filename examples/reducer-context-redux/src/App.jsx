@@ -1,5 +1,6 @@
 import BaseApp from './base';
 import ReducerApp from './reducer';
+import ContextApp from './context';
 
 function App() {
   console.log('Render App...');
@@ -7,7 +8,8 @@ function App() {
   return (
     <>
       {/* <BaseApp /> */}
-      <ReducerApp />
+      {/* <ReducerApp /> */}
+      <ContextApp />
     </>
   );
 }
