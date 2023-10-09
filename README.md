@@ -6,6 +6,7 @@
 
 ### 杂文
 
+  - [再聊 Reducer Context 和 Redux](https://github.com/mintsweet/mintsweet.github.io/issues/14)
   - [你可能没有关注过的 React 性能优化](https://github.com/mintsweet/mintsweet.github.io/issues/13)
   - [那些被忽略的 JavaScript 数组方法细节](https://github.com/mintsweet/mintsweet.github.io/issues/12)
   - [深度解析 Create-React-App 源码](https://github.com/mintsweet/mintsweet.github.io/issues/9)
