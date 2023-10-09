@@ -1,39 +1,37 @@
 import { useReducer, useMemo } from 'react';
 
-import AddTodo from './add';
-import Column from './column';
+import Add from './add';
+import Todos from './todos';
 
-function todoReducer(todos, action) {
+let nextId = 3;
+const initialTodos = [
+  {
+    id: 1,
+    name: 'Learning English',
+    done: false,
+  },
+  {
+    id: 2,
+    name: 'Writing a blog post',
+    done: false,
+  },
+];
+
+export function todoReducer(todos, action) {
   switch (action.type) {
     case 'added': {
-      return [
-        ...todos,
-        {
-          name: action.name,
-          step: 1,
-        },
-      ];
+      return [...todos, { id: nextId++, name: action.name, done: false }];
     }
-    case 'prev': {
+    case 'changed':
       return todos.map((t) => {
-        if (t.name === action.todo.name) {
-          return { ...t, step: t.step - 1 };
+        if (t.id === action.todo.id) {
+          return action.todo;
         } else {
           return t;
         }
       });
-    }
-    case 'next': {
-      return todos.map((t) => {
-        if (t.name === action.todo.name) {
-          return { ...t, step: t.step + 1 };
-        } else {
-          return t;
-        }
-      });
-    }
     case 'deleted': {
-      return todos.filter((t) => t.name !== action.name);
+      return todos.filter((t) => t.id !== action.id);
     }
     default: {
       throw Error('Unknown action: ' + action.type);
@@ -42,10 +40,7 @@ function todoReducer(todos, action) {
 }
 
 export default function ReducerApp() {
-  const [todos, dispatch] = useReducer(todoReducer, [
-    { name: '学英语', step: 1 },
-    { name: '写代码', step: 1 },
-  ]);
+  const [todos, dispatch] = useReducer(todoReducer, initialTodos);
 
   const handleAddTodo = (name) => {
     dispatch({
@@ -54,69 +49,29 @@ export default function ReducerApp() {
     });
   };
 
-  const handlePrevStep = (todo) => {
+  const handleChangeTodo = (todo) => {
     dispatch({
-      type: 'prev',
+      type: 'changed',
       todo,
     });
   };
 
-  const handleNextStep = (todo) => {
-    dispatch({
-      type: 'next',
-      todo,
-    });
-  };
-
-  const handleDelTodo = (name) => {
+  const handleDelTodo = (id) => {
     dispatch({
       type: 'deleted',
-      name,
+      id,
     });
   };
-
-  const columns = useMemo(() => {
-    let result = [
-      {
-        step: 1,
-        title: 'Todo',
-        todos: [],
-      },
-      {
-        step: 2,
-        title: 'In Progress',
-        todos: [],
-      },
-      {
-        step: 3,
-        title: 'Done',
-        todos: [],
-      },
-    ];
-
-    result.forEach((column) => {
-      column.todos = todos.filter((todo) => todo.step === column.step);
-    });
-
-    return result;
-  }, [todos]);
 
   return (
     <div className="container">
       <h1>Base App</h1>
-      <AddTodo onAdd={handleAddTodo} />
-      <div className="columns">
-        {columns.map((column) => (
-          <Column
-            key={column.step}
-            title={column.title}
-            todos={column.todos}
-            onPrev={handlePrevStep}
-            onNext={handleNextStep}
-            onDelete={handleDelTodo}
-          />
-        ))}
-      </div>
+      <Add onAdd={handleAddTodo} />
+      <Todos
+        todos={todos}
+        onChange={handleChangeTodo}
+        onDelete={handleDelTodo}
+      />
     </div>
   );
 }

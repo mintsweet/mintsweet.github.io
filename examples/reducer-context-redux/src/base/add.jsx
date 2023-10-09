@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-export default function AddTodo({ onAdd }) {
+export default function Add({ onAdd }) {
+  console.log('Render Add Component...');
+
   const [name, setName] = useState('');
 
   return (

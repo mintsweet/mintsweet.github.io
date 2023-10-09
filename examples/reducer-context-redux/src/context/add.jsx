@@ -2,8 +2,11 @@ import { useState, useContext } from 'react';
 
 import TodoContext from './context';
 
-export default function AddTodo() {
+export default function Add() {
+  console.log('Render Add Component...');
+
   const [name, setName] = useState('');
+
   const { dispatch } = useContext(TodoContext);
 
   return (
@@ -16,10 +19,7 @@ export default function AddTodo() {
       <button
         onClick={() => {
           setName('');
-          dispatch({
-            type: 'added',
-            name,
-          });
+          dispatch({ type: 'added', name });
         }}
       >
         Add
