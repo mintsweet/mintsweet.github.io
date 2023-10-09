@@ -18,6 +18,8 @@ const initialTodos = [
 ];
 
 export default function BaseApp() {
+  console.log('Render App...');
+
   const [todos, setTodos] = useState(initialTodos);
 
   const handleAddTodo = (name) => {

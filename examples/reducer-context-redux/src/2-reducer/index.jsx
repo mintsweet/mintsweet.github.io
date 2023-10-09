@@ -40,6 +40,8 @@ export function todoReducer(todos, action) {
 }
 
 export default function ReducerApp() {
+  console.log('Render App...');
+
   const [todos, dispatch] = useReducer(todoReducer, initialTodos);
 
   const handleAddTodo = (name) => {
@@ -65,7 +67,7 @@ export default function ReducerApp() {
 
   return (
     <div className="container">
-      <h1>Base App</h1>
+      <h1>Reducer App</h1>
       <Add onAdd={handleAddTodo} />
       <Todos
         todos={todos}
