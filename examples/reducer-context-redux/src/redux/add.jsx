@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export default function AddTodo() {
-  console.log('Render AddTodo...');
+export default function Add() {
+  console.log('Render Add Component...');
 
   const [name, setName] = useState('');
 

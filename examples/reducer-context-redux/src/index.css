@@ -1,6 +1,28 @@
+body {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+}
+
+button {
+  padding: 4px 8px;
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  background-color: rgb(248 113 113);
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+  cursor: pointer;
+}
+
 .container {
   margin: 0 auto;
   max-width: 720px;
+}
+
+.container h1 {
+  text-align: center;
 }
 
 .add {
@@ -9,36 +31,31 @@
   margin-bottom: 16px;
 }
 
-.columns {
-  display: flex;
-}
-
-ul.column {
+ul.todos {
   margin: 0;
   padding: 24px;
-  flex: 1;
-  border: 1px solid #cacaca;
+  border: 1px solid rgb(251 146 60);
+  border-radius: 8px;
 }
 
-ul.column h2 {
-  text-align: center;
-}
-
-li.item {
+li.todo {
   display: flex;
   justify-content: space-between;
-  margin: 0 0 8px;
-  padding: 8px 16px;
+  margin: 0 0 16px;
+  padding: 16px 24px;
   list-style: none;
-  border: 1px solid rgb(209 213 219);
+  border: 1px solid rgb(241 245 249);
+  border-radius: 4px;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
-li.item .operate span {
-  margin-right: 4px;
+li.todo label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
   cursor: pointer;
 }
 
-li.item .operate span:last-child {
-  margin-right: 0;
+li.todo label button {
+  margin-left: 8px;
 }

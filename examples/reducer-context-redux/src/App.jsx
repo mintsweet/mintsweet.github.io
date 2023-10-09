@@ -4,8 +4,6 @@ import ContextApp from './context';
 import ReduxApp from './redux';
 
 function App() {
-  console.log('Render App...');
-
   return (
     <>
       {/* <BaseApp /> */}

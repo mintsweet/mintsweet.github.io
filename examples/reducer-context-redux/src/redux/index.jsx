@@ -1,9 +1,8 @@
-import { useMemo } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 
 import store from './store';
-import AddTodo from './add';
-import Column from './column';
+import Add from './add';
+import Todos from './todos';
 
 export default () => (
   <Provider store={store}>
@@ -12,45 +11,13 @@ export default () => (
 );
 
 function ReduxApp() {
-  console.log('Render ReduxApp...');
-
-  const todos = useSelector((state) => state);
-
-  const columns = useMemo(() => {
-    let result = [
-      {
-        step: 1,
-        title: 'Todo',
-        todos: [],
-      },
-      {
-        step: 2,
-        title: 'In Progress',
-        todos: [],
-      },
-      {
-        step: 3,
-        title: 'Done',
-        todos: [],
-      },
-    ];
-
-    result.forEach((column) => {
-      column.todos = todos.filter((todo) => todo.step === column.step);
-    });
-
-    return result;
-  }, [todos]);
+  console.log('Render App...');
 
   return (
     <div className="container">
-      <h1>Base App</h1>
-      <AddTodo />
-      <div className="columns">
-        {columns.map((column) => (
-          <Column key={column.step} title={column.title} todos={column.todos} />
-        ))}
-      </div>
+      <h1>Redux App</h1>
+      <Add />
+      <Todos />
     </div>
   );
 }

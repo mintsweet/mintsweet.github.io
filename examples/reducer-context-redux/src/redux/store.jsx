@@ -1,42 +1,34 @@
 import { createStore } from 'redux';
 
-function todoReducer(
-  todos = [
-    { name: '学英语', step: 1 },
-    { name: '写代码', step: 1 },
-  ],
-  action
-) {
+let nextId = 3;
+const initialTodos = [
+  {
+    id: 1,
+    name: 'Learning English',
+    done: false,
+  },
+  {
+    id: 2,
+    name: 'Writing a blog post',
+    done: false,
+  },
+];
+
+function todoReducer(todos = initialTodos, action) {
   switch (action.type) {
     case 'added': {
-      return [
-        ...todos,
-        {
-          name: action.name,
-          step: 1,
-        },
-      ];
+      return [...todos, { id: nextId++, name: action.name, done: false }];
     }
-    case 'prev': {
+    case 'changed':
       return todos.map((t) => {
-        if (t.name === action.todo.name) {
-          return { ...t, step: t.step - 1 };
+        if (t.id === action.todo.id) {
+          return action.todo;
         } else {
           return t;
         }
       });
-    }
-    case 'next': {
-      return todos.map((t) => {
-        if (t.name === action.todo.name) {
-          return { ...t, step: t.step + 1 };
-        } else {
-          return t;
-        }
-      });
-    }
     case 'deleted': {
-      return todos.filter((t) => t.name !== action.name);
+      return todos.filter((t) => t.id !== action.id);
     }
     default:
       return todos;
