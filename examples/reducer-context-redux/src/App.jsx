@@ -6,10 +6,10 @@ import ReduxApp from './4-redux';
 function App() {
   return (
     <>
-      {/* <BaseApp /> */}
+      <BaseApp />
       {/* <ReducerApp /> */}
       {/* <ContextApp /> */}
-      <ReduxApp />
+      {/* <ReduxApp /> */}
     </>
   );
 }

@@ -23,7 +23,7 @@ export default function BaseApp() {
   const [todos, setTodos] = useState(initialTodos);
 
   const handleAddTodo = (name) => {
-    setTodos([...todos, { id: nextId++, name: name, done: false }]);
+    setTodos([...todos, { id: nextId++, name, done: false }]);
   };
 
   const handleChangeTodo = (todo) => {

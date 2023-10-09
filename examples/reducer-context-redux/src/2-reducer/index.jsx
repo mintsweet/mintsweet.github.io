@@ -17,7 +17,7 @@ const initialTodos = [
   },
 ];
 
-export function todoReducer(todos, action) {
+function todoReducer(todos, action) {
   switch (action.type) {
     case 'added': {
       return [...todos, { id: nextId++, name: action.name, done: false }];

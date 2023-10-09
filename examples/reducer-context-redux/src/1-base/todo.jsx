@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function Todo({ todo, onChange, onDelete }) {
   console.log(`Render Todo Component(${todo.name})...`);
+
   const [isEditing, setIsEditing] = useState(false);
 
   let todoContent;
