@@ -1,0 +1,135 @@
+.highlight {
+  margin: 10px 0;
+  border-radius: 5px;
+  overflow-x: auto;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.2), -1px -1px 2px rgba(0,0,0,0.2);
+}
+code {
+  padding: 2px 5px;
+  color: #84cc16;
+}
+.gutter {
+  font-size: 0.875rem;
+}
+.gutter .line {
+  display: inline-block;
+  padding: 0 0.5rem;
+}
+.code {
+  font-size: 0.875rem;
+}
+.code pre {
+  padding: 0.25rem 0;
+}
+.code .line {
+  display: inline-block;
+  padding: 0 0.5rem;
+}
+.code .comment,
+.code .quote {
+  color: code_color;
+}
+.code .keyword,
+.code .selector-tag,
+.code .addition {
+  color: code_color;
+}
+.code .number,
+.code .string,
+.code .meta .meta-string,
+.code .literal,
+.code .doctag,
+.code .regexp {
+  color: code_color;
+}
+.code .title,
+.code .section,
+.code .name,
+.code .selector-id,
+.code .selector-class {
+  color: code_color;
+}
+.code .attribute,
+.code .attr,
+.code .variable,
+.code .template-variable,
+.code .class .title,
+.code .type {
+  color: code_color;
+}
+.code .symbol,
+.code .bullet,
+.code .subst,
+.code .meta,
+.code .meta .keyword,
+.code .selector-attr,
+.code .selector-pseudo,
+.code .link {
+  color: code_color;
+}
+.code .built_in,
+.code .deletion {
+  color: code_color;
+}
+.post-content h1 {
+  margin: 1.875rem 0;
+  font-size: 1.875rem;
+}
+.post-content h2 {
+  margin: 1.5rem 0;
+  font-size: 1.5rem;
+}
+.post-content h3 {
+  margin: 1.25rem 0;
+  font-size: 1.125rem;
+}
+.post-content h4 {
+  margin: 1.125rem 0;
+  font-size: 1.125rem;
+}
+.post-content h5 {
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+.post-content h6 {
+  margin: 0.75rem 0;
+  font-size: 0.75rem;
+}
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  font-weight: 600;
+}
+.post-content h1::before,
+.post-content h2::before,
+.post-content h3::before,
+.post-content h4::before,
+.post-content h5::before,
+.post-content h6::before {
+  content: '$';
+  margin-right: 4px;
+  color: #84cc16;
+}
+.post-content blockquote {
+  position: relative;
+  margin: 1rem 0;
+  padding: 0.5rem 0.5rem;
+  border-left: 0.25rem solid #84cc16;
+  border-radius: 2px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+.post-content blockquote p {
+  margin: 0;
+}
+.post-content ul {
+  padding-left: 1rem;
+}
+.post-content ul li {
+  list-style: disc;
+}
+.post-content p {
+  margin: 1rem 0;
+}

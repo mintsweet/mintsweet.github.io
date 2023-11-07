@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>青湛</title>
+  <meta name="author" content="青湛" />
+  <meta name="keywords" content="青湛,博客,qingzhan,mintsweet,blog" />
+  <meta name="description" content="青湛's Blog" />
+  
+  <link rel="icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="relative pb-8 min-h-screen border-t-2 border-black">
+    <header class="shadow-sm bg-white">
+  <div class="flex justify-between mx-auto max-w-3xl py-2">
+    <div class="flex items-center">
+      <div class="w-8 h-8">
+        <img src="/logo.svg" alt="" />
+      </div>
+      <h1 class="ml-4">青湛</h1>
+    </div>
+    <ul class="flex items-center justify-end">
+      
+      <li class="ml-4"><a href="/" title="Home">Home</a></li>
+      
+      <li class="ml-4"><a href="/about/" title="About">About</a></li>
+      
+      <li class="ml-4"><a href="/archives/" title="Archives">Archives</a></li>
+      
+      <li class="ml-4"><a href="/tags/" title="Tags">Tags</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+    <main>
+      <div class="mx-auto max-w-3xl"><div class="py-8 post">
+  <h1 class="text-3xl font-semibold mb-1">那些被忽略的 JavaScript 数组方法细节</h1>
+  <div class="flex items-center mb-4 text-sm">
+    <span class="pl-2 text-slate-400">2019-02-27</span>
+    <span class="mx-4">|</span>
+    
+    <div class="flex items-center">
+       <a href="/tags/%E6%8A%80%E6%9C%AF/" title="#技术" class="mr-2 text-slate-400">#技术</a>  <a href="/tags/JavaScript/" title="#JavaScript" class="mr-2 text-slate-400">#JavaScript</a> 
+    </div>
+    
+  </div>
+  <article class="post-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>自以为还算一个比较高产的人吧～但是感觉好久都没有写点什么没有营养的东西了，这一篇本来是打算去年年底都要拿出来说一说的，但是年底事情太多了，加上我真的变懒了拖到现在才要把这个准备了好久的标题完善一下。</p>
+<p>之所以会突然想讲一讲<code>JavaScript</code>中的数组，是因为我经历了好多次事后发现很傻的问题，所以就想说还是总结一下，这篇相当于总结一样的文章我也不想讲数组的方法是怎么用的，毕竟不管是在哪，数组方法的使用都有很多教程了，单纯的就来说一说那些我们可能忽略的细节。</p>
+<span id="more"></span>
+
+<h2 id="抛砖引玉"><a href="#抛砖引玉" class="headerlink" title="抛砖引玉"></a>抛砖引玉</h2><p>在开始正式讲被我们忽略的一些数组方法之前，我还是想先举一个例子来说说我在其中躺过的一丢丢小坑～</p>
+<p>现在我们随便来有一个小小的需求，写一个方法，有两个参数，一个是数组，另一个是需要添加到数组里面的元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">arrPush</span>(<span class="params">arr, target</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">push</span>(target);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr_1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">arrPush</span>(arr_1, <span class="number">4</span>));</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码对你来说应该是很简单的吧，我们的需求就是把<code>[1, 2, 3]</code>变成<code>[1, 2, 3, 4]</code>，看起来好像没有错诶～大胆的推测一下最后的<code>console.log()</code>结果是什么呢，你可以自己试一下看看。</p>
+<p>好了，不卖关子了，最后的结果是<code>4</code>，诶？你可能已经清楚了这个点，你也可能完全不知道是怎么回事，没关系，清楚了你就当在复习一次，没清楚的话那你真的应该把这篇应该不长的总结看一下下。</p>
+<h2 id="意想不到数组方法"><a href="#意想不到数组方法" class="headerlink" title="意想不到数组方法"></a>意想不到数组方法</h2><p>上面抛砖引玉之后你可能大概加估计应该也知道了我为什么想要做这样一个总结，尤其是对<code>JavaScript</code>掌握的不是那么好的同学来说，更是特别容易忽略的地方了。</p>
+<p>我希望当你看到下面方法名字的时候，应该马上出现那个方法的用法，而且应该知道你可能没有经常用到的它剩下的参数还有它的返回值。</p>
+<p>其实很多时候在<code>MDN</code>上面对一个方法的描述已经非常清楚了，但是我们还是会忽略到，所以结合例子来看，可能对你的记忆会更加有帮助。</p>
+<h3 id="array-push"><a href="#array-push" class="headerlink" title="array.push"></a>array.push</h3><p>上面抛砖引玉的原因，先来说说这个方法，解释一下出现上面情况的原因。</p>
+<blockquote>
+<p>push() 方法将一个或多个元素添加到数组的末尾，并返回该数组的新长度</p>
+</blockquote>
+<p>这一句话其实已经把上面的答案解释了，我们在<code>return arr.push(target)</code>的时候，返回的是<code>arr.push()</code>函数的返回值，这个值是这个数组新的长度，所以结果是<code>4</code>，来正确的使用一下这个方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">arrPush</span>(<span class="params">arr, target</span>) &#123;</span><br><span class="line">    arr.<span class="title function_">push</span>(target)</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr_1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">arrPush</span>(arr_1, <span class="number">4</span>));</span><br></pre></td></tr></table></figure>
+
+<p>这个时候结果才是我们最后想要的<code>[1, 2, 3, 4]</code>，顺便就说说<code>push</code>方法可以同时接收多个参数，像这样<code>arr.push(1, 2, 3, 4)</code>，返回结果当然还是数组的新长度啦。</p>
+<h3 id="array-concat"><a href="#array-concat" class="headerlink" title="array.concat"></a>array.concat</h3><p>接着来说说<code>concat</code>合并多个数组的方法，因为想要跟上面的<code>push</code>做一下对比，所以选择接着说这个方法，来看一下小例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">arrConcat</span>(<span class="params">arr, arr2</span>) &#123;</span><br><span class="line">    arr.<span class="title function_">concat</span>(arr2);</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr_1 = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">var</span> arr_2 = [<span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">arrConcat</span>(arr_1, arr_2));</span><br></pre></td></tr></table></figure>
+
+<p>由于上面<code>push</code>方法的原因，我们依然选择<code>return arr</code>，这样的结果是什么呢，还是建议大家动手试一试，会发现得到的是<code>[1, 2]</code>，哇哦～怎么和<code>push</code>表现不一致呢，为什么又返回了<code>[1, 2]</code>。</p>
+<blockquote>
+<p> concat() 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组</p>
+</blockquote>
+<p>当你理解了这个方法的时候，你就会发现<code>MDN</code>上面的表述真的很棒～忍不住想要夸一下它，很清楚了吧，<code>concat</code>方法不会改变原来的数组，也就是当我们<code>return arr</code>的时候，<code>arr</code>并没有发生改变，所以还是<code>[1, 2]</code>，改写一下我们的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">arrConcat</span>(<span class="params">arr, arr2</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">concat</span>(arr2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr_1 = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">var</span> arr_2 = [<span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">arrConcat</span>(arr_1, arr_2));</span><br></pre></td></tr></table></figure>
+
+<p>这时候在看就会得到预期的结果了～这个方法其实还有一个神奇的地方，就是它可以直接连接一个值，并且它也能同时连接多个值或者多个数组，或者多个值和多个数组的组合，像这样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">arr.<span class="title function_">concat</span>(<span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], <span class="number">7</span>, [<span class="number">8</span>, <span class="number">9</span>]); <span class="comment">// [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="arrary-map-和-array-forEach"><a href="#arrary-map-和-array-forEach" class="headerlink" title="arrary.map 和 array.forEach"></a>arrary.map 和 array.forEach</h3><p>因为这两个方法有丢丢类似，所以同时说一下，顺便讲讲它们的区别吧，先来看看它们的基本解释。</p>
+<blockquote>
+<p>map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果</p>
+</blockquote>
+<blockquote>
+<p>forEach() 方法对数组的每个元素执行一次提供的函数</p>
+</blockquote>
+<p>从这两句解释来看，它们都是迭代数组的每一个元素，区别是<code>map</code>方法会返回新的数组，而<code>forEach</code>方法不会，那它有返回值吗？答案是有的…</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newArr = arr.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> item + <span class="number">1</span>; </span><br><span class="line">&#125;); <span class="comment">// [2, 3, 4];</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newArr2 = arr.<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> item + <span class="number">1</span>; </span><br><span class="line">&#125;); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newArr3 = arr.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(item + <span class="number">1</span>);</span><br><span class="line">&#125;); <span class="comment">// [undefined, undefined, undefined]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newArr4 = arr.<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(item + <span class="number">1</span>); </span><br><span class="line">&#125;); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<p>答案我已经写在上面了，<code>map</code>方法必须显示的返回值，而<code>forEach</code>只是对数组的每一个元素执行内部内容。这两个方法的参数是一致的，<code>回调函数</code>和执行回调函数时使用的<code>this</code>值，回调函数中的参数也是一致的，分别是<code>数组当前元素</code>、<code>当前元素索引</code>和<code>数组本身</code>。</p>
+<p>一般来说我们用的比较多的也就是回调函数和它的两个参数，很多人忽略了回调函数的第三个参数，其实还蛮好用的，先不表。最后就是改变<code>this</code>值的参数，因为真的很少用，也没有实际案例来说，所以就不多说了，大家知道还有这么个东西就行，如果有实际用到的情况，也可以给我分享一下，学习一下～</p>
+<h3 id="arrary-filter"><a href="#arrary-filter" class="headerlink" title="arrary.filter"></a>arrary.filter</h3><p>在<code>es5</code>之后的新的数组迭代方法，参数几乎都与上述一致。</p>
+<pre><code>- 回调函数(数组当前值，当前值索引，数组本身)
+- 执行回调函数的this值
+</code></pre>
+<blockquote>
+<p>filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素</p>
+</blockquote>
+<p>本身这个数组过滤的方法使用很简单，我就说一丢丢在使用的时候的小技巧，比如数组去重就很好用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>];</span><br><span class="line"><span class="keyword">var</span> result = arr.<span class="title function_">filter</span>(<span class="function">(<span class="params">item, index, arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">indexOf</span>(item) === index; </span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result); <span class="comment">// [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="arrary-pop-和-arrary-shift"><a href="#arrary-pop-和-arrary-shift" class="headerlink" title="arrary.pop 和 arrary.shift"></a>arrary.pop 和 arrary.shift</h3><p>上面说了很多了～大家估计也大概知道我们容易忽略的一个是方法的返回值，还有就是没有经常使用的参数，所以我这两个方法就直接上说明了。</p>
+<blockquote>
+<p>pop()方法从数组中删除最后一个元素，并返回该元素的值。此方法更改数组的长度</p>
+</blockquote>
+<blockquote>
+<p>shift() 方法从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度</p>
+</blockquote>
+<p>这两个方法用法完全相同，区别就是一个弹出的是数组最后的元素，一个弹出的是数组最前面的元素，弹出这个大家看了上面方法的解释也应该知道我想表达的是方法返回值元素～</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="title function_">pop</span>()); <span class="comment">// 3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="title function_">shift</span>()); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="property">length</span>); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>我并没有把所有的数组方法的拿出来说一下是觉得上述这些例子已经足以告诉大家平常我们在使用的时候容易忽略的地方，也不是什么很难理解的东西，所以就说到这里吧～剩下的方法就靠大家自己去仔细的使用了。</p>
+</article>
+</div>
+</div>
+    </main>
+    <footer class="absolute bottom-2 left-0 right-0">
+  <div class="mx-auto max-w-3xl flex items-center justify-between">
+    <p class="text-sm">
+       Copyright &copy;  2023 青湛
+    </p>
+    <p class="text-sm">
+      Powered by
+      <a href="https://hexo.io" target="_blank" class="underline">Hexo</a>
+      • Theme
+      <a
+        href="https://github.com/mintsweet/hexo-theme-mints"
+        target="_blank"
+        class="underline"
+        >Mints</a
+      >
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
